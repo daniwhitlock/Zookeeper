@@ -6,15 +6,9 @@ const { animals } = require('./data/animals');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// parse incoming string or array data
-app.use(express.urlencoded({ extended: true}));
-
-// parse incomgin JSON data
-app.use(express.json());
-
-// linking front end code
-app.use(express.static('public'));
-
+app.use(express.static('public'));// linking front end code
+app.use(express.urlencoded({ extended: true})); // parse incoming string or array data
+app.use(express.json());// parse incomgin JSON data
 
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
@@ -120,6 +114,18 @@ app.post('/api/animals', (req, res) => {
 });
 
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
